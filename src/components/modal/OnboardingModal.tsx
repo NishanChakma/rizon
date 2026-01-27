@@ -1,59 +1,91 @@
-import React, { forwardRef, useCallback } from 'react';
+import React, {
+  forwardRef,
+  RefObject,
+  useCallback,
+  useImperativeHandle,
+  useRef,
+} from 'react';
 import { StyleSheet, Image, View } from 'react-native';
-import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
+import {
+  BottomSheetBackdrop,
+  BottomSheetBackdropProps,
+  BottomSheetModal,
+  BottomSheetView,
+} from '@gorhom/bottom-sheet';
 import logo from '../../assets/logo.png';
 import { Button, GreyText, Title } from '../reusable';
 import { colors } from '../../utills';
+import { FeedbackModalRef } from './FeedbackModal';
+import { ReviewModalRef } from './ReviewModal';
 
 export type OnboardingModalRef = BottomSheetModal;
 
-const OnboardingModal = forwardRef<OnboardingModalRef>((_, ref) => {
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-  }, []);
+type Props = {
+  feedbackRef: RefObject<FeedbackModalRef | null>;
+  reviewRef: RefObject<ReviewModalRef | null>;
+};
 
-  return (
-    <BottomSheetModal
-      ref={ref}
-      onChange={handleSheetChanges}
-      // snapPoints={['40%']}
-    >
-      <BottomSheetView style={styles.contentContainer}>
-        <Image source={logo} style={styles.logo} />
-        <Title
-          title="Enjoying Rizon so far?"
-          style={{ paddingTop: 20, paddingBottom: 10 }}
-        />
-        <GreyText title="Your feedback helps us build a better money experience." />
-        <View style={styles.buttons}>
-          <Button
-            title="Not Yet"
-            style={{
-              width: '48%',
-              backgroundColor: colors.white,
-              borderColor: colors.borderColor,
-            }}
-            textStyle={{ color: colors.black }}
-            onPress={() => null}
+const OnboardingModal = forwardRef<OnboardingModalRef, Props>(
+  ({ feedbackRef, reviewRef }, ref) => {
+    const sheetRef = useRef<BottomSheetModal>(null);
+
+    useImperativeHandle(ref, () => sheetRef.current as BottomSheetModal);
+
+    const handleSheetChanges = useCallback((index: number) => {
+      console.log('handleSheetChanges', index);
+    }, []);
+
+    const notYetPress = () => {
+      sheetRef.current?.close();
+      feedbackRef.current?.present();
+    };
+
+    const loveItPress = () => {
+      sheetRef.current?.close();
+      reviewRef.current?.present();
+    };
+
+    return (
+      <BottomSheetModal ref={sheetRef} onChange={handleSheetChanges}>
+        <BottomSheetView style={styles.contentContainer}>
+          <Image source={logo} style={styles.logo} />
+          <Title
+            title="Enjoying Rizon so far?"
+            style={{ paddingTop: 20, paddingBottom: 10 }}
           />
-          <Button
-            title="Yes, loving it"
-            style={{ width: '48%' }}
-            onPress={() => null}
-          />
-        </View>
-      </BottomSheetView>
-    </BottomSheetModal>
-  );
-});
+          <GreyText title="Your feedback helps us build a better money experience." />
+          <View style={styles.buttons}>
+            <Button
+              title="Not Yet"
+              style={{
+                width: '48%',
+                backgroundColor: colors.white,
+                borderColor: colors.borderColor,
+              }}
+              textStyle={{ color: colors.black }}
+              onPress={notYetPress}
+            />
+            <Button
+              title="Yes, loving it"
+              style={{ width: '48%' }}
+              onPress={loveItPress}
+            />
+          </View>
+        </BottomSheetView>
+      </BottomSheetModal>
+    );
+  },
+);
+
+export default OnboardingModal;
 
 const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
-    paddingBottom: 30,
+    paddingHorizontal: 15,
+    paddingVertical: 30,
   },
   logo: {
     height: 120,
@@ -64,8 +96,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: 10,
-    marginTop: 20,
+    marginTop: 30,
   },
 });
-
-export default OnboardingModal;

@@ -13,7 +13,7 @@ const App: React.FC = () => {
       <GestureHandlerRootView style={styles.flex}>
         <NavigationContainer>
           <SafeAreaView style={styles.container}>
-            <StatusBar barStyle="dark-content" />
+            <StatusBar barStyle="light-content" />
             <View style={styles.flex}>
               <BottomSheetModalProvider>
                 <RootStack />
