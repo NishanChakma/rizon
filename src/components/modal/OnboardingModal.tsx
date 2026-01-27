@@ -1,17 +1,11 @@
 import React, {
   forwardRef,
   RefObject,
-  useCallback,
   useImperativeHandle,
   useRef,
 } from 'react';
 import { StyleSheet, Image, View } from 'react-native';
-import {
-  BottomSheetBackdrop,
-  BottomSheetBackdropProps,
-  BottomSheetModal,
-  BottomSheetView,
-} from '@gorhom/bottom-sheet';
+import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 import logo from '../../assets/logo.png';
 import { Button, GreyText, Title } from '../reusable';
 import { colors } from '../../utills';
@@ -31,10 +25,6 @@ const OnboardingModal = forwardRef<OnboardingModalRef, Props>(
 
     useImperativeHandle(ref, () => sheetRef.current as BottomSheetModal);
 
-    const handleSheetChanges = useCallback((index: number) => {
-      console.log('handleSheetChanges', index);
-    }, []);
-
     const notYetPress = () => {
       sheetRef.current?.close();
       feedbackRef.current?.present();
@@ -46,7 +36,7 @@ const OnboardingModal = forwardRef<OnboardingModalRef, Props>(
     };
 
     return (
-      <BottomSheetModal ref={sheetRef} onChange={handleSheetChanges}>
+      <BottomSheetModal ref={sheetRef}>
         <BottomSheetView style={styles.contentContainer}>
           <Image source={logo} style={styles.logo} />
           <Title

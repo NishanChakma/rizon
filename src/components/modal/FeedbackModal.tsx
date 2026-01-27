@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback, useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 import { Button, GreyText, TextArea, Title } from '../reusable';
@@ -7,12 +7,9 @@ export type FeedbackModalRef = BottomSheetModal;
 
 const FeedbackModal = forwardRef<FeedbackModalRef>((_, ref) => {
   const [feedback, setfeedback] = useState('');
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-  }, []);
 
   return (
-    <BottomSheetModal ref={ref} onChange={handleSheetChanges}>
+    <BottomSheetModal ref={ref}>
       <BottomSheetView style={styles.contentContainer}>
         <Title title="Help us improve Rizon" />
         <GreyText

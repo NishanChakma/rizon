@@ -1,9 +1,8 @@
 import React, { forwardRef, useCallback } from 'react';
-import { StyleSheet, Image, View, Linking } from 'react-native';
+import { StyleSheet, Image, Linking } from 'react-native';
 import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 import logo from '../../assets/frame.png';
 import { Button, GreyText, Title } from '../reusable';
-import { colors } from '../../utills';
 
 export type ReviewModalRef = BottomSheetModal;
 
