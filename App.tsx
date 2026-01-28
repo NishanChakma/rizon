@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 import RootStack from './src/navigation';
+import { colors } from './src/utills';
 
 const App: React.FC = () => {
   return (
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: colors.black,
   },
 });
 
